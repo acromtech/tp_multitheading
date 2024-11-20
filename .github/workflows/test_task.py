@@ -14,7 +14,7 @@ class TestTask(unittest.TestCase):
             task.a @ task.x,
             task.b,
             rtol=1e-5,
-            atol=1e-8,
+            atol=0,
             err_msg="Erreur : la solution calculée n'est pas correcte",
         )
 
