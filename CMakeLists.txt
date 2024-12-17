@@ -1,35 +1,28 @@
-cmake_minimum_required(VERSION 3.10)
-project(low_level)
-
-# Ajouter C++17
+cmake_minimum_required(VERSION 3.14)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Ajouter les bibliothèques
-find_package(Eigen3 REQUIRED)
-include_directories(${EIGEN3_INCLUDE_DIR})
+set(PROJECT_NAME "low_level")
+project(${PROJECT_NAME})
 
-# CPR depuis le sous-module ou le système
+option(CPR_ENABLE_SSL "" OFF)
+
 include(FetchContent)
 FetchContent_Declare(
-    cpr
-    GIT_REPOSITORY https://github.com/libcpr/cpr.git
-    GIT_TAG 1.11.1
-)
-FetchContent_MakeAvailable(cpr)
-
-# Ajouter nlohmann/json
-include(FetchContent)
+  json
+  DOWNLOAD_EXTRACT_TIMESTAMP OFF
+  URL "https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz")
 FetchContent_Declare(
-    json
-    GIT_REPOSITORY https://github.com/nlohmann/json.git
-    GIT_TAG v3.11.3
-)
-FetchContent_MakeAvailable(json)
+  cpr
+  DOWNLOAD_EXTRACT_TIMESTAMP OFF
+  URL "https://github.com/libcpr/cpr/archive/refs/tags/1.10.5.tar.gz")
+FetchContent_Declare(
+  eigen
+  DOWNLOAD_EXTRACT_TIMESTAMP OFF
+  URL "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz")
+FetchContent_MakeAvailable(json eigen cpr)
+find_package(OpenMP REQUIRED COMPONENTS CXX)
 
-# Fichiers sources
-add_executable(low_level client.cpp)
-
-# Lier les bibliothèques
-target_link_libraries(low_level PRIVATE cpr::cpr nlohmann_json::nlohmann_json)
+add_executable(${PROJECT_NAME} ${PROJECT_NAME}.cpp)
+target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpr::cpr
+                      Eigen3::Eigen OpenMP::OpenMP_CXX)
 
