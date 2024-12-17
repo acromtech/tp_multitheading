@@ -14,7 +14,7 @@ include(FetchContent)
 FetchContent_Declare(
     cpr
     GIT_REPOSITORY https://github.com/libcpr/cpr.git
-    GIT_TAG 081771c80dc7ed88fb49931a1dbb888b5b1bf19c
+    GIT_TAG 1.11.1
 )
 FetchContent_MakeAvailable(cpr)
 
@@ -23,7 +23,7 @@ include(FetchContent)
 FetchContent_Declare(
     json
     GIT_REPOSITORY https://github.com/nlohmann/json.git
-    GIT_TAG v3.11.2
+    GIT_TAG v3.11.3
 )
 FetchContent_MakeAvailable(json)
 
