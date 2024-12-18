@@ -63,7 +63,7 @@ uv add numpy httpx
 
 # C++ Libraries
 sudo apt-get update
-sudo apt-get install -y cmake g++ libssl-dev
+sudo apt-get install -y cmake g++ libssl-dev nlohmann-json3-dev
 
 echo "Dépendances installées avec succès."
 ```
