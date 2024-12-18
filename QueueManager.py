@@ -12,8 +12,10 @@ QueueManager.register('get_task_queue', callable=lambda: task_queue)
 QueueManager.register('get_result_queue', callable=lambda: result_queue)
 
 if __name__ == "__main__":
-    manager = QueueManager(address=('127.0.0.1', 50000), authkey=b'abc')
-    manager.start()
+    manager = QueueManager(address=('', 50000), authkey=b'abc')
+    #manager.start()
+    s = manager.get_server()
+    s.serve_forever()
     print("QueueManager started.")
     try:
         while True:

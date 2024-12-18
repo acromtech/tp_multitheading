@@ -2,7 +2,7 @@
 from QueueManager import QueueManager
 
 class QueueClient:
-    def __init__(self, address='127.0.0.1', port=50000, authkey=b'abc'):
+    def __init__(self, address='localhost', port=50000, authkey=b'abc'):
         self.manager = QueueManager(address=(address, port), authkey=authkey)
         self.manager.connect()
         self.task_queue = self.manager.get_task_queue()
