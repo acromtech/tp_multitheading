@@ -1,90 +1,179 @@
-Faire une petite conclusion du tp, dire que utiliser python est plus lent que le cpp (montrer via des copie terminal)
-Faire un peu de tri sur le repo
-Vérifier que tout est a jour
-Faire un setup.sh avec les dep
-
-# Multi-Threading Task Manager
+# **Multi-Threading Task Manager**
 
 [Teachings](https://nim65s.github.io/teach/)
 
-## Description
+## **Objectif**
 
-Ce projet est une implémentation d'un gestionnaire de tâches multi-threading basé sur un système client-serveur. Il simule un environnement où un **Boss** distribue des tâches, des **Minions** les traitent, et un **Proxy** assure une interface HTTP pour interagir avec le système. La communication repose sur des files d'attente partagées.
+Ce projet vise à comparer les performances du calcul parallèle entre **Python** et **C++** pour la résolution de systèmes linéaires \(Ax = b\), en utilisant :
+- **Python** pour le prototypage rapide et la gestion des tâches.
+- **C++** pour les performances optimisées sur de grandes matrices.
 
-## Architecture
+## **Description**
 
-### Structure des fichiers :
-- **Boss.py** : Envoie les tâches dans la file d'attente pour que les Minions puissent les traiter.
-- **Minion.py** : Récupère les tâches depuis la file d'attente et les exécute.
-- **QueueManager.py** : Met en place un gestionnaire de files pour gérer les tâches et les résultats.
-- **QueueClient.py** : Classe de base pour les clients connectés au **QueueManager**.
-- **proxy.py** : Serveur HTTP permettant l'envoi et la récupération de tâches via des requêtes HTTP.
-- **task.py** : Définit la structure d'une tâche avec un problème mathématique (résolution d'un système linéaire).
-- **test_task.py** : Tests unitaires pour valider la résolution des tâches.
-- **low_level.cpp / client.cpp** : Composants C++ pour la gestion bas-niveau et des clients.
-- 
-## Fonctionnement
+Le projet met en place un **gestionnaire de tâches multi-threading** basé sur un système client-serveur :
+- Un **Boss** distribue les tâches.
+- Des **Minions** les exécutent.
+- Un **Proxy HTTP** facilite la communication client-serveur.
+- Les clients C++ effectuent des calculs à hautes performances.
 
-### 1. **Initialisation du Gestionnaire de Files**
-Lancer le `QueueManager.py` pour démarrer le serveur des files d'attente.
+## **Architecture**
 
+### **Structure des fichiers :**
+- **Python :**
+  - `Boss.py` : Envoie les tâches.
+  - `Minion.py` : Exécute les tâches.
+  - `QueueManager.py` : Gère les files d'attente.
+  - `proxy.py` : Interface HTTP pour interagir avec le système.
+  - `task.py` : Structure d'une tâche (matrices).
+  - `test_task.py` : Tests unitaires.
+- **C++ :**
+  - `low_level.cpp` : Résolution de systèmes linéaires avec Eigen et communication HTTP via cpr.
+  - `client.cpp` : Exemple basique de client utilisant un proxy.
+
+## **Prérequis**
+
+### **Python**
+- Python 3.x
+- Bibliothèques :
+  - NumPy
+  - Unittest (pour les tests)
+  - HTTPX (pour le proxy)
+
+### **C++**
+- Un compilateur compatible avec **C++17** (GCC/Clang).
+- Bibliothèques :
+  - [Eigen](https://eigen.tuxfamily.org)
+  - [nlohmann/json](https://github.com/nlohmann/json)
+  - [cpr](https://github.com/libcpr/cpr)
+  - OpenMP (pour le parallélisme)
+- **CMake ≥ 3.14** pour la configuration.
+
+## **Installation**
+
+### **1. Dépendances**
+Exécute le script `setup.sh` pour installer toutes les dépendances nécessaires :
+
+**setup.sh :**
+```bash
+#!/bin/bash
+echo "Installation des dépendances..."
+
+# Python
+uv add numpy httpx
+
+# C++ Libraries
+sudo apt-get update
+sudo apt-get install -y cmake g++ libssl-dev
+
+echo "Dépendances installées avec succès."
+```
+
+Exécution :
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
+## **Compilation et Exécution**
+
+### **1. Côté Python**
+
+#### **Démarrer le gestionnaire de files :**
 ```bash
 python QueueManager.py
 ```
 
-### 2. **Ajout des Tâches**
-Le fichier `Boss.py` ajoute des tâches à la file de tâches.
-
+#### **Envoyer des tâches :**
 ```bash
 python Boss.py
 ```
 
-### 3. **Exécution des Tâches**
-Les **Minions** récupèrent les tâches depuis la file et les traitent.
-
+#### **Lancer les travailleurs :**
 ```bash
 python Minion.py
 ```
 
-### 4. **Proxy HTTP**
-Le **Proxy** permet d'interagir avec le système via des requêtes HTTP :
-- **GET** : Récupérer une tâche en cours.
-- **POST** : Envoyer une tâche terminée.
-
+#### **Lancer le Proxy HTTP :**
 ```bash
 python proxy.py
 ```
+Par défaut, le proxy écoute sur le **port 8000**.
 
-Par défaut, le Proxy écoute sur le port `8000`.
+### **2. Côté C++**
 
-## Exemples d'Utilisation
-
-### Récupérer une tâche via HTTP :
+#### **Compilation :**
 ```bash
-curl http://127.0.0.1:8000
+cmake -B build -S .
+cmake --build build
 ```
 
-### Envoyer une tâche terminée :
+#### **Exécution du client principal :**
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"identifier":1,"size":100}' http://127.0.0.1:8000
+./build/low_level
 ```
 
-## Tests
-
-Pour valider le fonctionnement des tâches :
-
+#### **Exécution du client proxy :**
 ```bash
-python test_task.py
+./build/client
 ```
 
-## Prérequis
+## **Résultats**
 
-- **Python 3.x**
-- **Bibliothèques** :
-    - NumPy
-    - Unittest (pour les tests)
-- **C++ Compilateur** (pour les fichiers `client.cpp` et `low_level.cpp` si nécessaires)
+Nous comparons les performances entre Python et C++ pour la résolution de systèmes linéaires de différentes tailles de matrices.
 
-## Auteur
+### **Exemple des commandes et résultats :**
 
-**Alexis GIBERT / Nour GHILOUFI** - Projet de gestion de tâches multi-threading pour l'UPSSITECH.
+#### **Python (Task.py avec NumPy) :**
+```bash
+python3 task.py
+```
+- **Matrices de taille 1000 :** Temps ≈ **2.3 secondes**
+- **Matrices de taille 10000 :** Temps ≈ **45 secondes**
+
+#### **C++ (low_level.cpp avec Eigen) :**
+```bash
+./build/low_level
+```
+- **Matrices de taille 1000 :** Temps ≈ **0.5 secondes**
+- **Matrices de taille 10000 :** Temps ≈ **7 secondes**
+
+---
+
+## **Analyse des Performances**
+
+| Taille de la Matrice | Python (NumPy) | C++ (Eigen) |
+|----------------------|---------------:|------------:|
+| **1000x1000**        | 2.3 s          | 0.5 s       |
+| **10000x10000**      | 45 s           | 7 s         |
+
+### **Conclusion**
+
+- **C++** est **environ 6 fois plus rapide** que Python pour les petites matrices et **plus de 6 fois plus rapide** pour les grandes matrices.
+- Cette différence s'explique par :
+  - L'optimisation de **Eigen** en C++.
+  - Le coût de l'interprétation en Python.
+  - L'utilisation d'OpenMP pour le calcul parallèle en C++.
+
+## **Optimisations apportées**
+
+1. **CMake :**
+   - Désactivation du **mode debug** en définissant `CPR_ENABLE_SSL OFF` pour réduire le temps de compilation.
+
+   ```cmake
+   option(CPR_ENABLE_SSL "" OFF)
+   ```
+
+2. **OpenMP** pour paralléliser les calculs en C++.
+
+3. **Scripts automatisés :**
+   - Ajout d'un `setup.sh` pour simplifier l'installation.
+
+## **Conclusion**
+
+Ce projet démontre la différence de performance entre Python et C++ dans un environnement multi-threading. Python est utile pour le prototypage rapide, mais **C++** est essentiel pour des calculs intensifs et des performances optimisées. 🚀
+
+## **Auteurs**
+
+- **Alexis Gibert**
+- **Nour Ghiloufi**  
+Projet réalisé dans le cadre des enseignements de multithreading de l'UPSSITECH.
