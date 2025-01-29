@@ -9,7 +9,7 @@ class Boss(QueueClient):
     def add_tasks(self, num_tasks=10):
         print("Boss is adding tasks.")
         for i in range(num_tasks):
-            task = Task(identifier=i, size=6000)  # Crée une tâche de taille fixe (exemple : 10)
+            task = Task(identifier=i, size=1000)  # Crée une tâche de taille fixe (exemple : 10)
             
             # Crée deux copies identiques de la tâche
             task_for_python = task
