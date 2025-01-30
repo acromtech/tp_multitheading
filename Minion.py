@@ -1,6 +1,6 @@
-from task import Task
 from QueueClient import QueueClient
 import time
+
 
 class Minion(QueueClient):
     def __init__(self, *args, **kwargs):
@@ -19,12 +19,19 @@ class Minion(QueueClient):
                 task.work()  # Effectue la résolution Ax = b
                 elapsed_time = time.time() - start_time
 
-                # Envoyer le résultat dans la file de résultats
+                # Stocker le temps d'exécution dans la tâche
+                task.execution_time = elapsed_time
+
+                # Envoyer la tâche complétée avec le temps d’exécution
                 self.result_queue.put(task)
-                print(f"Task {task.identifier} completed in {elapsed_time:.2f} seconds.")
+                print(
+                    f"Task {task.identifier} completed in {elapsed_time:.2f} seconds."
+                )
+
             except Exception as e:
                 print("No more tasks or an error occurred:", e)
                 break
+
 
 if __name__ == "__main__":
     minion = Minion()

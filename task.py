@@ -64,15 +64,13 @@ class Task:
         )
 
 
-
 if __name__ == "__main__":
-    
     # TEST POUR to_json
     task = Task(identifier=1, size=10)
     task.work()
     json_output = task.to_json()
     print(json_output)
-    
+
     # TEST POUR from_json
     # Créer une tâche, la convertir en JSON, puis la recréer à partir du JSON
     task = Task(identifier=1, size=10)
@@ -84,12 +82,12 @@ if __name__ == "__main__":
 
     # Vérification
     print(task_from_json.identifier)  # 1
-    print(task_from_json.size)        # 10
-    print(task_from_json.time)        # Temps mesuré
-    
+    print(task_from_json.size)  # 10
+    print(task_from_json.time)  # Temps mesuré
+
     # TEST POUR __eq__
-    task1 = Task(identifier=1, size=10) # Meme task
-    task2 = Task(identifier=1, size=10) # Meme task
+    task1 = Task(identifier=1, size=10)  # Meme task
+    task2 = Task(identifier=1, size=10)  # Meme task
 
     # Exécuter le travail pour qu'ils aient des résultats différents
     task1.work()
@@ -101,4 +99,3 @@ if __name__ == "__main__":
     # Comparer avant d'exécuter `work`
     task3 = Task(identifier=1, size=10)
     print(task1 == task3)  # True (avant que `work` ne soit appelé)
-

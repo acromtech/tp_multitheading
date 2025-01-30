@@ -25,4 +25,3 @@ find_package(OpenMP REQUIRED COMPONENTS CXX)
 add_executable(${PROJECT_NAME} ${PROJECT_NAME}.cpp)
 target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpr::cpr
                       Eigen3::Eigen OpenMP::OpenMP_CXX)
-

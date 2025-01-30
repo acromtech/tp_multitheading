@@ -15,7 +15,7 @@ int main() {
     // Vérifier la réponse
     if (response.status_code == 200) {
         std::cout << "Response from server:\n" << response.text << std::endl;
-	
+
         // Parse JSON response
         nlohmann::json json_data = nlohmann::json::parse(response.text);
         std::cout << "JSON parsed: " << json_data.dump(4) << std::endl;
@@ -33,4 +33,3 @@ int main() {
 
     return 0;
 }
-
