@@ -69,4 +69,3 @@ wait $BOSS_CPP_PID
 cleanup
 
 echo "Tous les processus sont terminés."
-
