@@ -6,27 +6,21 @@ class Boss(QueueClient):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def add_tasks(self, num_tasks=10):
-        print("Boss is adding tasks.")
-        for i in range(num_tasks):
-            task = Task(identifier=i, size=1000)  # Crée une tâche de taille fixe (exemple : 10)
+    def add_tasks(self, num_tasks=10, sizes=None):
+        if sizes is None:
+            sizes = [100, 200, 500, 800, 1000, 2000, 3000, 4000, 5000, 6000]  # Liste des tailles des tâches
             
-            # Crée deux copies identiques de la tâche
-            task_for_python = task
-            task_for_cpp = Task(identifier=i, size=task.size)
-            task_for_cpp.a = task.a  # Copie les données matricielles
-            task_for_cpp.b = task.b
+        print("Boss is adding tasks with varying sizes.")
+        for i in range(num_tasks):
+            size = sizes[i % len(sizes)]  # Sélectionne une taille cycliquement
+
+            task = Task(identifier=i, size=size)
 
             # Mesurer le temps pour envoyer les tâches
             start_time = time.time()
 
-            # Envoyer au Minion (Python)
-            self.task_queue.put(task_for_python)
-            print(f"Task {task.identifier} sent to Minion.")
-
-            # Envoyer à low_level (C++)
-            self.task_queue.put(task_for_cpp)
-            print(f"Task {task.identifier} sent to low_level.")
+            self.task_queue.put(task)
+            print(f"Task {task.identifier} with size {task.size} sent.")
 
             elapsed_time = time.time() - start_time
             print(f"Task {task.identifier} dispatched in {elapsed_time:.2f} seconds.")

@@ -11,7 +11,7 @@ class Minion(QueueClient):
         while True:
             try:
                 # Récupérer une tâche depuis la file d’attente
-                task = self.task_queue.get(timeout=10)
+                task = self.task_queue.get(timeout=1)
                 print(f"Processing task {task.identifier} of size {task.size}.")
 
                 # Mesurer le temps de traitement
@@ -29,4 +29,3 @@ class Minion(QueueClient):
 if __name__ == "__main__":
     minion = Minion()
     minion.work()
-
