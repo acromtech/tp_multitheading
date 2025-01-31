@@ -120,23 +120,23 @@ Comme le montre le graphique ci-dessus :
 - Cette performance de Python est due au fait que **NumPy est optimisé en C et bénéficie d'algorithmes hautement optimisés pour les opérations matricielles.**
 - **Malgré les optimisations en C++, Python surpasse C++ sur la plupart des tailles de matrices.**
 
-# 🚀 Améliorations Possibles  
+## 🚀 Améliorations Possibles  
 
 Python s’est révélé être un excellent choix pour ce projet, grâce à sa simplicité et sa gestion efficace du multitâche. Toutefois, plusieurs optimisations peuvent être envisagées pour améliorer encore davantage les performances.  
 
-## 🔧 Optimisation du Code Python  
+### 🔧 Optimisation du Code Python  
 - Utiliser **Numba** pour accélérer les calculs via la compilation Just-In-Time (JIT).  
 - Expérimenter **Dask** pour un meilleur traitement parallèle des grandes matrices.  
 
-## 🔄 Amélioration de la Communication Client-Serveur  
+### 🔄 Amélioration de la Communication Client-Serveur  
 - Réduire la latence en optimisant les requêtes entre **le Boss, les Minions et le Proxy**.  
 - Tester des alternatives plus performantes comme **gRPC** au lieu de **HTTPX**.  
 
-## 📊 Évaluation de Nouveaux Solveurs  
+### 📊 Évaluation de Nouveaux Solveurs  
 - Comparer les performances d’autres solveurs disponibles dans **NumPy** et **Eigen**.  
 - Analyser l’impact des **solveurs itératifs** sur les temps de calcul.  
 
-## ⚙️ Gestion Optimisée des Ressources  
+### ⚙️ Gestion Optimisée des Ressources  
 - Affiner l’utilisation des **threads** pour contourner les limites du **GIL**.  
 - Tester différentes stratégies d’affectation des tâches aux **Minions** afin d’optimiser leur efficacité.  
 
