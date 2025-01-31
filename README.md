@@ -116,7 +116,8 @@ cmake --build build
 
 Comme le montre le graphique ci-dessus :
 - **Python (Minion.py) est globalement plus rapide que C++ (low_level.cpp), même pour les grandes tailles de matrices.**
-- **C++ est plus performant uniquement pour les très petites tailles de matrices.**
+- **C++ en mode Debug est significativement plus lent que Python et C++ en mode Release**.
+- Le mode Release de C++ améliore un peu les performances, mais reste en dessous de Python pour la plupart des tailles de matrices
 - Cette performance de Python est due au fait que **NumPy est optimisé en C et bénéficie d'algorithmes hautement optimisés pour les opérations matricielles.**
 - **Malgré les optimisations en C++, Python surpasse C++ sur la plupart des tailles de matrices.**
 
